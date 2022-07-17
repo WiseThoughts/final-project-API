@@ -1,14 +1,16 @@
 # REST-API
 
-NPM Nodules:
+NPM Nodules: npm install 
+```
 npm init -y
-npm i express
-npm i mongoose
-npm i jsonwebtoken
-npm i dotenv
-npm i cors
-npm i bcryptjs
-npm i nodemon
+express
+mongoose
+jsonwebtoken
+dotenv
+cors
+bcryptjs
+nodemon
+```
 
 Thunderclient commands:
 
