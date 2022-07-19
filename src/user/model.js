@@ -7,15 +7,28 @@ const userSchema = new mongoose.Schema({
 		unique: true,
 		require: true,
 	},
+    name: {
+        type: string,
+        unique: false,
+    },
 	email: {
 		type: String,
 		unique: true,
 		require: true,
 	},
-	pass: {
+	password: {
 		type: String,
 		required: true,
 	},
+    street: {
+        type: String,
+    },
+    city: {
+        type: String,
+    },
+    postcode: {
+        type: String,
+    },
 });
 
 // Map the schema to a model
