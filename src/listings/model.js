@@ -17,6 +17,9 @@ const listingSchema = new mongoose.Schema({
 	currentPrice: {
 		type: Number,
 	},
+	buyNowPrice: {
+		type: Number,
+	},
 	category: {
 		type: String,
 		default: "Not Specified",
@@ -27,6 +30,19 @@ const listingSchema = new mongoose.Schema({
 	},
 	description: {
 		type: String,
+	},
+	listingBegins: {
+		type: Date,
+		default: () => Date.now(),
+	},
+	listingEnds: {
+		type: Date,
+		default: () => Date.now() + 14 * 24 * 60 * 60 * 1000,
+	},
+	sold: {
+		type: Boolean,
+		required: true,
+		default: false,
 	},
 	imageURL: {
 		type: String,
