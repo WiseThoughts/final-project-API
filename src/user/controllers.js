@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const User = require("./model");
 
 // Create user
 exports.signUp = async (req, res) => {
@@ -41,7 +42,7 @@ exports.changePassword = async (req, res) => {
 			// Then set the password hashed by the middleware
 			const user = await User.updateOne(
 				{ username: req.body.username },
-				{ pass: req.user.newPass }
+				{ password: req.user.newPassword }
 			);
 			res.send({ user });
 		}
@@ -51,6 +52,8 @@ exports.changePassword = async (req, res) => {
 		res.send({ error });
 	}
 };
+
+
 
 exports.deleteUser = async (req, res) => {
 	try {
@@ -66,4 +69,32 @@ exports.deleteUser = async (req, res) => {
 		console.log(error);
 		res.send({ error });
 	}
+};
+
+exports.listUser = async (req, res) => {
+    try {
+    const user = await User.findOne({ username: req.params.username });
+    if (!user) {
+        throw new Error("No user found");
+    } else {
+        res.send({ user });
+    }
+    } catch (error) {
+    console.log(error);
+    res.send({ error });
+    }
+};
+
+exports.findAll = async (req, res) => {
+    try {
+    const users = await User.find(req.body);
+    if (!users) {
+        throw new Error("User not found");
+    } else {
+        res.send({ users });
+    }
+    } catch (error) {
+    console.log(error);
+    res.send({ error });
+    }
 };
