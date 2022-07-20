@@ -1,6 +1,9 @@
 const {Router} = require("express");
-const { verifyEmail, hashPass, signUp, comparePass, login, tokenCheck, changePassword, deleteUser} = require("./controllers");
-const {} = require ("../middleware/index.js")
+const {  login, changePassword, deleteUser, signUp} = require("./controllers");
+const { hashPass,
+    comparePass,
+    tokenCheck,
+    verifyEmail,} = require ("../middleware/index.js")
 
 const userRouter = Router();
 
