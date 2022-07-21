@@ -7,7 +7,7 @@ exports.createDel = async (req, res) => {
   try {
     // req.body contains k/v pairs that match the User model
     const newDelivery = await Delivery.create(req.body);
-    res.send({ Delivery: newDelivery });
+    res.send({ delivery: newDelivery });
     console.log(res.send());
   } catch (error) {
     console.log(error);
@@ -18,9 +18,9 @@ exports.findDel = async (req, res) => {
   try {
     const delivery = await Delivery.find({ name: req.params.name });
     if (!delivery) {
-      throw new Error("User not found");
+      throw new Error("Order not found");
     } else {
-      res.send({ Delivery: delivery });
+      res.send({ delivery: delivery });
     }
   } catch (error) {
     console.log(error);
@@ -31,10 +31,10 @@ exports.findDels = async (req, res) => {
 	try {
 	  const deliveries = await Delivery.find(req.body);
 	  if (!deliveries) {
-		throw new Error("User not found");
+		throw new Error("Order not found");
 	  }
 		else{
-	  res.send({ Delivery: deliveries });}
+	  res.send({ delivery: deliveries });}
 	} catch (error) {
 	  console.log(error);
 	  res.send({ error });
@@ -45,7 +45,7 @@ exports.findDels = async (req, res) => {
 exports.deleteDel = async (req, res) => {
   try {
     const delDeliv = await Delivery.deleteOne({ name: req.params.name });
-    res.send({ Delivery: delDeliv });
+    res.send({ delivery: delDeliv });
   } catch (error) {
     console.log(error);
     res.send({ error });
@@ -58,7 +58,7 @@ exports.updateDel = async (req, res) => {
       req.body.filterObj,
       req.body.updateObj
     );
-    res.send({ Delivery: editDel });
+    res.send({ delivery: editDel });
   } catch (error) {
     console.log(error);
     res.send({ error });
