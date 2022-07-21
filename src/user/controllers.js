@@ -53,6 +53,18 @@ exports.changePassword = async (req, res) => {
 	}
 };
 
+exports.addAddress = async (req, res) => {
+	try {
+	const editUser = await User.updateOne(
+		req.body.filterObj,
+		req.body.updateObj
+	);
+	res.send({ user: editUser });
+	} catch (error) {
+	console.log(error);
+	res.send({ error });
+	}
+};
 
 
 exports.deleteUser = async (req, res) => {

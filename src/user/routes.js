@@ -1,5 +1,5 @@
 const {Router} = require("express");
-const { login, signUp, changePassword, deleteUser, listUser, findAll } = require("./controllers");
+const { login, signUp, changePassword, deleteUser, listUser, findAll, addAddress } = require("./controllers");
 const {  hashPass, comparePass, tokenCheck, verifyEmail } = require ("../middleware/index.js")
 
 const userRouter = Router();
@@ -14,5 +14,6 @@ userRouter.put("/change-password", comparePass, hashPass, changePassword); // de
 userRouter.get("/user/:username", listUser);
 userRouter.get("/user", findAll);
 userRouter.delete("/delete-account", tokenCheck, deleteUser); // define a delete request on /delete-account endpoint that calls the deleteUser controller
+userRouter.patch("/user", addAddress);
 
 module.exports = userRouter;
