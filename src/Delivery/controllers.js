@@ -5,14 +5,20 @@ require("dotenv").config();
 
 exports.createDel = async (req, res) => {
   try {
+    if(!req.body.user_id){
+      throw new error("User not found")
+    }
+    else{
     // req.body contains k/v pairs that match the User model
     const newDelivery = await Delivery.create(req.body);
     res.send({ delivery: newDelivery });
     console.log(res.send());
+    }
   } catch (error) {
     console.log(error);
     res.send({ error });
   }
+
 };
 exports.findDel = async (req, res) => {
   try {
