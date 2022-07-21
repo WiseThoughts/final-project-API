@@ -53,7 +53,7 @@ exports.changePassword = async (req, res) => {
 	}
 };
 
-exports.addAddress = async (req, res) => {
+exports.updateUserDetails = async (req, res) => {
 	try {
 	const editUser = await User.updateOne(
 		req.body.filterObj,
