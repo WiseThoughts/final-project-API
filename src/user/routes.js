@@ -1,13 +1,8 @@
 const {Router} = require("express");
-<<<<<<< HEAD
 const { login, signUp, changePassword, deleteUser, listUser, findAll,  updateUserDetails } = require("./controllers");
-=======
-
-const { login, signUp, changePassword, deleteUser, listUser, findAll, addAddress } = require("./controllers");
->>>>>>> cfd6c0affd6fb6cb7ca331098e407280d801a5dc
-const {  hashPass, comparePass, tokenCheck, verifyEmail } = require ("../middleware/index.js")
-
+const { hashPass, comparePass, tokenCheck, verifyEmail } = require ("../middleware/index.js")
 const userRouter = Router();
+
 
 userRouter.post("/user", verifyEmail, hashPass, signUp); // define a post request on /user endpoint that calls the signUp controller
 userRouter.post("/user", hashPass, signUp); // define a post request on /user endpoint that calls the signUp controller
