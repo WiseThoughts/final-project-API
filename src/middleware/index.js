@@ -22,11 +22,11 @@ exports.verifyEmail = async (req, res, next) => {
 
 exports.hashPass = async (req, res, next) => {
 	try {
-		req.body.pass = await bcrypt.hash(req.body.pass, SALT); // Hash the password from req.body.pass, reasserting into req.body.pass
+		req.body.password = await bcrypt.hash(req.body.password, 8); // Hash the password from req.body.pass, reasserting into req.body.pass
 
 		// If changing password:
-		if (req.body.newPass) {
-			req.user.newPass = await bcrypt.hash(req.body.newPass, SALT); // Hash the password from req.body.newPass if it exists, reassert into req.body.newPass
+		if (req.body.newPassword) {
+			req.user.newPassword = await bcrypt.hash(req.body.newPassword, SALT); // Hash the password from req.body.newPass if it exists, reassert into req.body.newPass
 		}
 
 		next(); // Moves onto next middleware/controller in endpoint
@@ -42,7 +42,7 @@ exports.comparePass = async (req, res, next) => {
 		req.user = await User.findOne({ username: req.body.username });
 
 		// Check the req.user password matches the req.body password
-		if (await bcrypt.compare(req.body.pass, req.user.pass)) {
+		if (await bcrypt.compare(req.body.password, req.user.password)) {
 			next(); // Move onto the next middleware/controller in endpoint
 		} else {
 			// If they do not match, throw a new error "Invalid login details"
