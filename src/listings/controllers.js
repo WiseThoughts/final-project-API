@@ -1,7 +1,6 @@
-const jwt = require("jsonwebtoken");
+const ListingSchema = require("./model");
+// const jwt = require("jsonwebtoken");
 require("dotenv").config();
-
-import Listing from "./model";
 
 exports.addListing = async (req, res) => {
 	try {
@@ -24,15 +23,15 @@ exports.addListing = async (req, res) => {
 		// Ensure that the user has input a name for the listing
 		if (!req.body.name) {
 			throw new Error(
-				"Name not specified, please enter a name for your listing"
+				"Title not specified, please enter a name for your listing"
 			);
 		}
 		// Set the current price based off the user inputted starting price.
 		req.body.currentPrice = req.body.startingPrice;
 
-		const newListing = await Listing.create(req.body);
+		const newListing = await ListingSchema.create(req.body);
 
-		res.send();
+		res.send({ listing: newListing });
 	} catch (error) {
 		console.log(error);
 		res.send({ error });
@@ -42,6 +41,7 @@ exports.addListing = async (req, res) => {
 exports.listings = async (req, res) => {
 	try {
 		//Route: /shop
+
 		// Body must be:
 		//  {
 		//     (optional) maxPrice: [some number],
@@ -64,11 +64,12 @@ exports.listings = async (req, res) => {
 		if (req.body.condition) {
 			param.push({ condition: { $regex: req.body.condition } });
 		}
+
 		// Ensure that the listings are still available:
 		param.push({ listingEnds: { $gt: Date.now() } });
 
 		// Search for listings that meet ALL the conditions set by the user
-		const listOfProducts = await Listing.find({ $and: param });
+		const listOfProducts = await ListingSchema.find({ $and: param });
 		res.send({ products: listOfProducts });
 	} catch (error) {
 		console.log(error);
@@ -79,6 +80,7 @@ exports.listings = async (req, res) => {
 exports.updateListing = async (req, res) => {
 	try {
 		// Route: /edit
+
 		// Body must be:
 		// {
 		//      listingId: [Id of an existing listing],
@@ -86,6 +88,25 @@ exports.updateListing = async (req, res) => {
 		//      (optional) buyNowPrice: [New number to update the buy it now price with],
 		//      (optional) description: [String with a new description for the listing],
 		// }
+		
+		let $set = {};
+		if (req.body.name) {
+			$set.name = req.body.name;
+		}
+		if (req.body.buyNowPrice) {
+			$set.buyNowPrice = req.body.buyNowPrice;
+		}
+		if (req.body.description) {
+			$set.description = req.body.description;
+		}
+
+		console.log($set);
+		const post = await ListingSchema.updateOne(
+			{ _id: req.body.listingId },
+			{ $set }
+		);
+
+		res.send({ listing: post });
 	} catch (error) {
 		console.log(error);
 		res.send({ error });
