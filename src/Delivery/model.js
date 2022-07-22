@@ -3,26 +3,34 @@ const mongoose = require("mongoose");
 const delivSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
- addressline1: {
+  addressline1: {
     type: String,
-    require: true,
+    required: true,
   },
   city: {
     type: String,
-    require: true,
   },
   postcode: {
     type: String,
+    required: true,
   },
   cost: {
     type: Number,
-  
+    default: 0,
   },
   preference: {
     type: Boolean,
   },
+  listing_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+  recipient_id:{
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  }
 });
 
 const Delivery = mongoose.model("Delivery", delivSchema);

@@ -53,7 +53,7 @@ exports.changePassword = async (req, res) => {
 	}
 };
 
-exports.addAddress = async (req, res) => {
+exports.updateUserDetails = async (req, res) => {
 	try {
 	const editUser = await User.updateOne(
 		req.body.filterObj,
@@ -108,5 +108,16 @@ exports.findAll = async (req, res) => {
     } catch (error) {
     console.log(error);
     res.send({ error });
+    }
+};
+
+
+exports.updatePassword = async (req, res)=>{
+    try{
+        const updatePassword = await User.updateOne({username: req.body.username}, {$set:{password: req.body.password}});
+        res.send({updatePassword, message: `updated password for ${req.body.username}`});
+    }catch(error){
+        console.log(error)
+        res.send({error, message:"update password error"})
     }
 };
