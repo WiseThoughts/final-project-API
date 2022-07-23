@@ -10,6 +10,7 @@ exports.signUp = async (req, res) => {
 		const newUser = await User.create(req.body);
 		const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY);
 		res.send({ user: newUser, token });
+		console.log({token})
 	} catch (error) {
 		console.log(error);
 		res.send({ error });
