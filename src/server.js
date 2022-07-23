@@ -10,7 +10,10 @@ const port = process.env.PORT || 5001;
 
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({
+	origin: "*",
+	methods: ["GET", "POST", "DELETE", "PATCH", "PUT"]
+}));
 app.use(userRouter);
 app.use(delRouter);
 
