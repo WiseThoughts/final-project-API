@@ -29,7 +29,8 @@ exports.login = async (req, res) => {
 		} else {
 			// auth succeeded
 			console.log(`${req.user.username} has logged in`);
-			res.send({ user: req.user.username });
+			req.user.token = jwt.sign({ id: req.user._id }, process.env.SECRET_KEY);
+			res.send({ user: req.user.username, token: req.user.token });
 		}
 	} catch (error) {
 		console.log(error);
