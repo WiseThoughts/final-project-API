@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const User = require("../user/model");
-const SALT = 8
+const SALT = 8;
 exports.verifyEmail = async (req, res, next) => {
 	try {
 		const regex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -38,6 +38,11 @@ exports.hashPass = async (req, res, next) => {
 
 exports.comparePass = async (req, res, next) => {
 	try {
+		if (process.env.DEBUG) {
+			console.log(`middleware/index.js:`);
+			console.log(req.body);
+			console.log(bcrypt);
+		}
 		// Lookup username OR email in database - Store it in req.user
 		req.user = await User.findOne({ username: req.body.username });
 
@@ -71,6 +76,3 @@ exports.tokenCheck = async (req, res, next) => {
 		res.send({ error });
 	}
 };
-
-
-

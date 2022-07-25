@@ -10,7 +10,7 @@ exports.signUp = async (req, res) => {
 		const newUser = await User.create(req.body);
 		const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY);
 		res.send({ user: newUser, token });
-		console.log({token})
+		console.log({ token });
 	} catch (error) {
 		console.log(error);
 		res.send({ error });
@@ -20,12 +20,17 @@ exports.signUp = async (req, res) => {
 // Read/Check if user exists
 exports.login = async (req, res) => {
 	try {
+		if (process.env.DEBUG) {
+			console.log(`user/controllers.js; `);
+			console.log(req.body);
+		}
 		if (!req.user) {
 			throw new Error("Invalid credentials");
 		} else {
 			// auth succeeded
 			console.log(`${req.user.username} has logged in`);
-			res.send({ user: req.user.username });
+			req.user.token = jwt.sign({ id: req.user._id }, process.env.SECRET_KEY);
+			res.send({ user: req.user.username, token: req.user.token });
 		}
 	} catch (error) {
 		console.log(error);
@@ -56,17 +61,16 @@ exports.changePassword = async (req, res) => {
 
 exports.updateUserDetails = async (req, res) => {
 	try {
-	const editUser = await User.updateOne(
-		req.body.filterObj,
-		req.body.updateObj
-	);
-	res.send({ user: editUser });
+		const editUser = await User.updateOne(
+			req.body.filterObj,
+			req.body.updateObj
+		);
+		res.send({ user: editUser });
 	} catch (error) {
-	console.log(error);
-	res.send({ error });
+		console.log(error);
+		res.send({ error });
 	}
 };
-
 
 exports.deleteUser = async (req, res) => {
 	try {
@@ -85,40 +89,45 @@ exports.deleteUser = async (req, res) => {
 };
 
 exports.listUser = async (req, res) => {
-    try {
-    const user = await User.findOne({ username: req.params.username });
-    if (!user) {
-        throw new Error("No user found");
-    } else {
-        res.send({ user });
-    }
-    } catch (error) {
-    console.log(error);
-    res.send({ error });
-    }
+	try {
+		const user = await User.findOne({ username: req.params.username });
+		if (!user) {
+			throw new Error("No user found");
+		} else {
+			res.send({ user });
+		}
+	} catch (error) {
+		console.log(error);
+		res.send({ error });
+	}
 };
 
 exports.findAll = async (req, res) => {
-    try {
-    const users = await User.find(req.body);
-    if (!users) {
-        throw new Error("User not found");
-    } else {
-        res.send({ users });
-    }
-    } catch (error) {
-    console.log(error);
-    res.send({ error });
-    }
+	try {
+		const users = await User.find(req.body);
+		if (!users) {
+			throw new Error("User not found");
+		} else {
+			res.send({ users });
+		}
+	} catch (error) {
+		console.log(error);
+		res.send({ error });
+	}
 };
 
-
-exports.updatePassword = async (req, res)=>{
-    try{
-        const updatePassword = await User.updateOne({username: req.body.username}, {$set:{password: req.body.password}});
-        res.send({updatePassword, message: `updated password for ${req.body.username}`});
-    }catch(error){
-        console.log(error)
-        res.send({error, message:"update password error"})
-    }
+exports.updatePassword = async (req, res) => {
+	try {
+		const updatePassword = await User.updateOne(
+			{ username: req.body.username },
+			{ $set: { password: req.body.password } }
+		);
+		res.send({
+			updatePassword,
+			message: `updated password for ${req.body.username}`,
+		});
+	} catch (error) {
+		console.log(error);
+		res.send({ error, message: "update password error" });
+	}
 };

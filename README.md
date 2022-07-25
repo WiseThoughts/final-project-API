@@ -18,6 +18,7 @@ Then create a `.env` file in the root folder which will contain the following:
 ```
     MONGO_URI = {A connection string to the font of all (relevant) knowledge}
     SECRET_KEY = {A phrase that you shall not reveal to the world, for it risks the integrity of everything}
+    DEBUG = [true/false] {A way to set debugging messages to be shown in the console, these may contain sensitive information, ensure that this is set to false in a production environment}
 ```
 
 ### Routes
