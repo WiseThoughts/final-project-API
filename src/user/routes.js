@@ -16,13 +16,12 @@ const {
 	verifyEmail,
 } = require("../middleware/index.js");
 
-
 const userRouter = Router();
 
 userRouter.post("/user", verifyEmail, hashPass, signUp); // define a post request on /user endpoint that calls the signUp controller
 userRouter.get("/user/:username", listUser);
 userRouter.get("/user", findAll);
-userRouter.patch("/user", updateUserDetails);
+userRouter.patch("/user", verifyEmail, hashPass, updateUserDetails);
 
 userRouter.post("/login", comparePass, login); // define a get request on /log-in endpoint that calls the logIn controller
 userRouter.get("/login", tokenCheck, login); // define a get request on /user endpoint that calls the tokenCheck and login methods
@@ -31,6 +30,5 @@ userRouter.put("/change-password", comparePass, hashPass, changePassword); // de
 userRouter.put("/password", hashPass, updatePassword);
 
 userRouter.delete("/delete-account", tokenCheck, deleteUser); // define a delete request on /delete-account endpoint that calls the deleteUser controller
-
 
 module.exports = userRouter;
