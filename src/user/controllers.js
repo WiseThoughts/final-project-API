@@ -62,9 +62,18 @@ exports.changePassword = async (req, res) => {
 exports.updateUserDetails = async (req, res) => {
 	try {
 		const editUser = await User.updateOne(
-			req.body.filterObj,
-			req.body.updateObj
+			{ name: req.body.user },
+			{
+				username: req.body.username,
+				name: req.body.name,
+				email: req.body.email,
+				password: req.body.password,
+				street: req.body.street,
+				city: req.body.city,
+				postcode: req.body.postcode,
+			}
 		);
+		console.log(editUser);
 		res.send({ user: editUser });
 	} catch (error) {
 		console.log(error);
