@@ -27,15 +27,9 @@ exports.verifyEmail = async (req, res, next) => {
 
 exports.hashPass = async (req, res, next) => {
 	try {
-		console.log("hashPass...");
-
 		if (req.body.password) {
+			console.log("hashPass...");
 			req.body.password = await bcrypt.hash(req.body.password, 8); // Hash the password from req.body.pass, reasserting into req.body.pass
-		}
-
-		// If changing password:
-		if (req.body.newPassword) {
-			req.user.newPassword = await bcrypt.hash(req.body.newPassword, SALT); // Hash the password from req.body.newPass if it exists, reassert into req.body.newPass
 		}
 
 		next(); // Moves onto next middleware/controller in endpoint
