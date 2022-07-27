@@ -29,7 +29,9 @@ exports.hashPass = async (req, res, next) => {
 	try {
 		console.log("hashPass...");
 
-		req.body.password = await bcrypt.hash(req.body.password, 8); // Hash the password from req.body.pass, reasserting into req.body.pass
+		if (req.body.password) {
+			req.body.password = await bcrypt.hash(req.body.password, 8); // Hash the password from req.body.pass, reasserting into req.body.pass
+		}
 
 		// If changing password:
 		if (req.body.newPassword) {
