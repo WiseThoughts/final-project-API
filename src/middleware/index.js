@@ -6,13 +6,18 @@ const User = require("../user/model");
 const SALT = 8;
 exports.verifyEmail = async (req, res, next) => {
 	try {
+		console.log("verifyEmail...");
 		const regex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 		// Regex checks for email format
-		if (regex.test(req.body.email)) {
-			// Email is valid
-			next();
+		if (req.body.email) {
+			if (regex.test(req.body.email)) {
+				// Email is valid
+				next();
+			} else {
+				throw new Error("Invalid email format.");
+			}
 		} else {
-			throw new Error("Invalid email format.");
+			next();
 		}
 	} catch (error) {
 		console.log(error);
@@ -22,6 +27,8 @@ exports.verifyEmail = async (req, res, next) => {
 
 exports.hashPass = async (req, res, next) => {
 	try {
+		console.log("hashPass...");
+
 		req.body.password = await bcrypt.hash(req.body.password, 8); // Hash the password from req.body.pass, reasserting into req.body.pass
 
 		// If changing password:
