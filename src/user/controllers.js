@@ -62,7 +62,7 @@ exports.changePassword = async (req, res) => {
 exports.updateUserDetails = async (req, res) => {
 	try {
 		const editUser = await User.updateOne(
-			{ name: req.body.user },
+			{ username: req.body.user },
 			{
 				username: req.body.username,
 				name: req.body.name,
