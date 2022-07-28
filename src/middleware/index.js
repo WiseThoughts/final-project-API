@@ -27,12 +27,9 @@ exports.verifyEmail = async (req, res, next) => {
 
 exports.hashPass = async (req, res, next) => {
 	try {
-		console.log("hashPass...");
-		req.body.password = await bcrypt.hash(req.body.password, 8); // Hash the password from req.body.pass, reasserting into req.body.pass
-
-		// If changing password:
-		if (req.body.newPassword) {
-			req.user.newPassword = await bcrypt.hash(req.body.newPassword, SALT); // Hash the password from req.body.newPass if it exists, reassert into req.body.newPass
+		if (req.body.password) {
+			console.log("hashPass...");
+			req.body.password = await bcrypt.hash(req.body.password, 8); // Hash the password from req.body.pass, reasserting into req.body.pass
 		}
 
 		next(); // Moves onto next middleware/controller in endpoint
@@ -82,3 +79,42 @@ exports.tokenCheck = async (req, res, next) => {
 		res.send({ error });
 	}
 };
+
+exports.getAuthor = async (req, res, next) => {
+try {
+const decodedToken = jwt.verify(
+	req.header("Authorization"),
+	process.env.SECRET_KEY
+);
+const { authorId: _id } = decodedToken
+res.locals.id = authorId
+
+next()
+}catch (error) {
+	console.log(error)
+}
+
+}
+
+exports.getAuthorId = async (req, res, next) => {
+    try {
+        // Search for user by display name
+        req.user = await User.findOne({ name: req.body.name })
+        
+        // Check if an ID was found that matches the provided user
+        if (req.user._id)
+        {
+            // Add the logged in users ID as the author ID
+            req.body.authorId = req.user._id
+            
+            // Move onto the next method.
+            next();
+        } else
+        {
+            throw new Error("User not found.")
+        }
+    } catch (error) {
+        console.log(error)
+
+    }
+}
