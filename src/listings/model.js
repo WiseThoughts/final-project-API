@@ -4,11 +4,11 @@ const mongoose = require("mongoose");
 const listingSchema = new mongoose.Schema({
 	authorId: {
 		type: mongoose.Schema.Types.ObjectId,
-		required: true,
+		// required: true,
 	},
 	name: {
 		type: String,
-		required: true,
+		// required: true,
 	},
 	startingPrice: {
 		type: Number,
@@ -41,7 +41,7 @@ const listingSchema = new mongoose.Schema({
 	},
 	sold: {
 		type: Boolean,
-		required: true,
+		// required: true,
 		default: false,
 	},
 	imageURL: {
