@@ -13,6 +13,7 @@ const listingSchema = new mongoose.Schema({
 	startingPrice: {
 		type: Number,
 		default: 0,
+		// Starts at 0 if nothing provided
 	},
 	currentPrice: {
 		type: Number,
